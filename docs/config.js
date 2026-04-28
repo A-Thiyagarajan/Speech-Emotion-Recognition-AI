@@ -1,3 +1,3 @@
-// Local development backend. Replace this with your deployed FastAPI URL
-// when you host the backend online.
-window.SER_API_BASE_URL = "http://127.0.0.1:8000";
+// GitHub Pages is static hosting, so prediction needs a separately deployed
+// FastAPI backend URL here. Leave empty for local FastAPI-served development.
+window.SER_API_BASE_URL = "";

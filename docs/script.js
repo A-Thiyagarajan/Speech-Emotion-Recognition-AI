@@ -5,13 +5,14 @@ const fileHelp = document.getElementById("fileHelp");
 const predictButton = document.getElementById("predictButton");
 const result = document.getElementById("result");
 
-const API_BASE_URL = window.SER_API_BASE_URL || "http://127.0.0.1:8000";
+const CONFIGURED_API_BASE_URL = (window.SER_API_BASE_URL || "").replace(/\/$/, "");
+const IS_GITHUB_PAGES = location.hostname.endsWith("github.io");
 const emotionEmoji = {
-    angry: "😠",
-    happy: "😊",
-    neutral: "😐",
-    sad: "😢",
-    fear: "😨"
+    angry: "\u{1F620}",
+    happy: "\u{1F60A}",
+    neutral: "\u{1F610}",
+    sad: "\u{1F622}",
+    fear: "\u{1F628}"
 };
 
 resetUpload();
@@ -59,7 +60,8 @@ async function sendAudio(event) {
     setResult("Analyzing audio...", "loading");
 
     try {
-        const response = await fetch(`${API_BASE_URL}/predict`, {
+        const apiBaseUrl = getApiBaseUrl();
+        const response = await fetch(`${apiBaseUrl}/predict`, {
             method: "POST",
             body: formData
         });
@@ -74,16 +76,35 @@ async function sendAudio(event) {
         }
 
         const emotion = String(data.emotion || "").toLowerCase();
-        const emoji = emotionEmoji[emotion] || "🎧";
+        const emoji = emotionEmoji[emotion] || "\u{1F3A7}";
         setResult(`Emotion: ${data.emotion} ${emoji}`, "success");
     } catch (error) {
-        setResult(
-            "Prediction API is not reachable. Start the FastAPI backend with uvicorn, then refresh this page.",
-            "error"
-        );
+        setResult(getPredictionErrorMessage(error), "error");
     } finally {
         predictButton.disabled = false;
     }
+}
+
+function getApiBaseUrl() {
+    if (CONFIGURED_API_BASE_URL) {
+        return CONFIGURED_API_BASE_URL;
+    }
+
+    if (IS_GITHUB_PAGES) {
+        throw new Error(
+            "GitHub Pages cannot run the Python model backend. Start uvicorn and open http://127.0.0.1:8000/, or deploy the backend and set docs/config.js."
+        );
+    }
+
+    return window.location.origin;
+}
+
+function getPredictionErrorMessage(error) {
+    if (error && error.message) {
+        return error.message;
+    }
+
+    return "Prediction API is not reachable. Start FastAPI with uvicorn, then open http://127.0.0.1:8000/.";
 }
 
 function setResult(message, state) {

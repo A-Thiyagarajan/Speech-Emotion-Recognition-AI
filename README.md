@@ -34,6 +34,11 @@ Open:
 http://127.0.0.1:8000/
 ```
 
+Use this local FastAPI URL for prediction while developing. The GitHub Pages URL
+can show the website, but it cannot call your local Python server reliably from
+every browser because Pages is HTTPS static hosting and the backend is HTTP on
+your own machine.
+
 ## Required Model Files
 
 Keep these files in `Backend/`:
@@ -56,7 +61,8 @@ model_ser_labels.json
 GitHub Pages hosts only the static website. It cannot run the FastAPI backend or
 the ONNX model. For predictions from the Pages link, deploy `Backend/` to a
 Python hosting service and set `SER_API_BASE_URL` in `docs/config.js` to that
-backend URL.
+backend URL. Without a deployed backend, prediction works from
+`http://127.0.0.1:8000/`, not from the GitHub Pages link.
 
 ## Labels
 
