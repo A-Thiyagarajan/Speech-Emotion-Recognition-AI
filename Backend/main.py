@@ -93,7 +93,7 @@ async def script():
 
 @app.get("/config.js", include_in_schema=False)
 async def config():
-    return FileResponse(FRONTEND_DIR / "config.js")
+    return Response('window.SER_API_BASE_URL = "";', media_type="application/javascript")
 
 
 # FEATURE EXTRACTION (SAME AS TRAINING)
@@ -143,4 +143,5 @@ async def predict(file: UploadFile = File(...)):
     }
 
 
+app.mount("/model", StaticFiles(directory=FRONTEND_DIR / "model"), name="model")
 app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
