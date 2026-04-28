@@ -24,8 +24,7 @@ index.html
 ## Run Locally
 
 ```powershell
-cd Backend
-python -m pip install -r requirements.txt
+python -m pip install -r Backend/requirements.txt
 uvicorn main:app --reload
 ```
 
