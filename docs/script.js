@@ -5,8 +5,7 @@ const fileHelp = document.getElementById("fileHelp");
 const predictButton = document.getElementById("predictButton");
 const result = document.getElementById("result");
 
-const API_BASE_URL = window.SER_API_BASE_URL || "";
-const isGitHubPages = location.hostname.endsWith("github.io");
+const API_BASE_URL = window.SER_API_BASE_URL || "http://127.0.0.1:8000";
 const emotionEmoji = {
     angry: "😠",
     happy: "😊",
@@ -60,10 +59,6 @@ async function sendAudio(event) {
     setResult("Analyzing audio...", "loading");
 
     try {
-        if (isGitHubPages && !API_BASE_URL) {
-            throw new Error("Backend API is not connected. Deploy the FastAPI backend and set SER_API_BASE_URL in docs/config.js.");
-        }
-
         const response = await fetch(`${API_BASE_URL}/predict`, {
             method: "POST",
             body: formData
@@ -82,7 +77,10 @@ async function sendAudio(event) {
         const emoji = emotionEmoji[emotion] || "🎧";
         setResult(`Emotion: ${data.emotion} ${emoji}`, "success");
     } catch (error) {
-        setResult(error.message || "Start the FastAPI backend before predicting.", "error");
+        setResult(
+            "Prediction API is not reachable. Start the FastAPI backend with uvicorn, then refresh this page.",
+            "error"
+        );
     } finally {
         predictButton.disabled = false;
     }
