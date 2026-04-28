@@ -30,10 +30,10 @@ def cors_headers():
     }
 
 BASE_DIR = Path(__file__).resolve().parent
-FRONTEND_DIR = BASE_DIR.parent / "docs"
-MODEL_PATH = BASE_DIR / "model_ser.onnx"
-MODEL_DATA_PATH = BASE_DIR / "model_ser.onnx.data"
-LABELS_PATH = BASE_DIR / "model_ser_labels.json"
+FRONTEND_DIR = BASE_DIR.parent / "Frontend"
+MODEL_PATH = BASE_DIR / "ai1_model_ser.onnx"
+MODEL_DATA_PATH = BASE_DIR / "ai1_model_ser.onnx.data"
+LABELS_PATH = BASE_DIR / "ai1_model_ser_labels.json"
 session = None
 labels = None
 
@@ -143,5 +143,8 @@ async def predict(file: UploadFile = File(...)):
     }
 
 
-app.mount("/model", StaticFiles(directory=FRONTEND_DIR / "model"), name="model")
+
+
+# Model files are served from the /predict endpoint, not as static files
+# app.mount("/model", StaticFiles(directory=FRONTEND_DIR / "model"), name="model")
 app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")

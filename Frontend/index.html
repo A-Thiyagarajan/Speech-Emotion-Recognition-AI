@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speech Emotion Recognition AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-content">
+        <h1>🎤 Speech Emotion Recognition AI</h1>
+        <p class="subtitle">Professional AI-powered emotion detection from speech</p>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Upload Section -->
+      <div class="card upload-card">
+        <h2 class="section-title">📁 Upload Audio Files</h2>
+        <div class="upload-area" id="uploadArea">
+          <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <h3>Drag & Drop Files Here</h3>
+          <p>or click to select from your device</p>
+          <p class="upload-hint">Supports bulk upload • WAV, MP3, OGG, FLAC</p>
+          <input type="file" id="audioFile" accept=".wav,.mp3,.ogg,.flac" multiple hidden>
+          <button class="btn btn-primary" id="selectBtn">Choose Files</button>
+        </div>
+      </div>
+
+      <!-- Files List Section -->
+      <div id="filesListContainer" class="card files-list-container" style="display: none;">
+        <h2 class="section-title">📋 Selected Files</h2>
+        <div class="files-scroll-container">
+          <div id="filesList" class="files-list"></div>
+        </div>
+      </div>
+
+      <!-- Predict Button -->
+      <button class="btn btn-predict" id="predictBtn" onclick="analyzeAllFiles()" disabled>
+        🚀 Analyze All Emotions
+      </button>
+
+      <!-- Loading Spinner -->
+      <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+        <div class="spinner"></div>
+        <div class="loading-info">
+          <p class="loading-text">Analyzing audio files...</p>
+          <p id="loadingProgress" class="loading-progress"></p>
+        </div>
+      </div>
+
+      <!-- Results Section -->
+      <div id="resultsContainer" class="results-container" style="display: none;">
+        <h2 class="section-title">✨ Analysis Results</h2>
+        <div id="resultsList" class="results-list"></div>
+        <button class="btn btn-secondary" onclick="resetAnalysis()">Analyze More Files</button>
+      </div>
+
+      <!-- Error Message -->
+      <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+      <!-- Success Message -->
+      <div id="successMessage" class="success-message" style="display: none;"></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>🔒 Secure • 🚀 Fast • 🎯 Accurate AI Emotion Detection</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
